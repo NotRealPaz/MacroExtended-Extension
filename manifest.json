@@ -1,0 +1,12 @@
+{
+    "name": "MacroExtended",
+    "display_name": "Macro Extended Extension",
+    "loading_order": 1000,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "author": "NotRealPaz",
+    "description": "Adds various buttons to guide AI generation within SillyTavern, enhancing control over character portrayal, actions, and narrative flow.",
+    "version": "1.0.0",
+    "manifest_version": 3
+}
