@@ -1,64 +1,59 @@
 import { getContext } from "../../../extensions.js";
 import {
-	MacroCategory,
-	MacroValueType,
-	macros,
+  MacroCategory,
+  MacroValueType,
+  macros,
 } from "../../../macros/macro-system.js";
 
-function getLastMessages() {
-	const chat = getContext().chat;
-	const result = { last: "", lastUser: "", lastChar: "" };
+const context = getContext();
 
-	if (!Array.isArray(chat) || chat.length === 0) return result;
+const findLastMessage = (filter = null) => {
+  const chat = context.chat;
 
-	for (let i = chat.length - 1; i >= 0; i--) {
-		const message = chat[i];
+  if (!Array.isArray(chat) || chat.length === 0) return "";
 
-		// Skip swipe-in-progress messages
-		if (message.swipes && message.swipe_id >= message.swipes.length) {
-			continue;
-		}
+  for (let i = chat.length - 1; i >= 0; i--) {
+    const message = chat[i];
 
-		const text = message.mes ?? "";
+    // Skip swipe-in-progress messages
+    if (message.swipes && message.swipe_id >= message.swipes.length) {
+      continue;
+    }
 
-		// If we haven't recorded the overall last message yet, set it.
-		if (!result.last) result.last = text;
+    if (!filter || filter(message)) {
+      return message.mes;
+    }
+  }
 
-		// Record last user message (non-system) if applicable.
-		if (message.is_user && !message.is_system && !result.lastUser) {
-			result.lastUser = text;
-		}
-
-		// Record last character message (non-user, non-system) if applicable.
-		if (!message.is_user && !message.is_system && !result.lastChar) {
-			result.lastChar = text;
-		}
-
-		// Stop early if we've found all three.
-		if (result.last && result.lastUser && result.lastChar) break;
-	}
-
-	return result;
-}
+  return null;
+};
 
 macros.registry.registerMacro("isLastMessageFromUser", {
-	category: MacroCategory.CHAT,
-	description: "Returns true if the last message is from the user.",
-	returns: "Whether the last message is coming from user.",
-	returnType: MacroValueType.BOOLEAN,
-	handler: () => {
-		const { last, lastUser } = getLastMessages();
-		return last === lastUser;
-	},
+  category: MacroCategory.CHAT,
+  description: "Returns true if the last message is from the user.",
+  returns: "Whether the last message is coming from user.",
+  returnType: MacroValueType.BOOLEAN,
+  handler: () => {
+    const last = findLastMessage();
+    const lastUser = findLastMessage(
+      (message) => message.is_user && !message.is_system,
+    );
+
+    return last === lastUser;
+  },
 });
 
 macros.registry.registerMacro("isLastMessageFromChar", {
-	category: MacroCategory.CHAT,
-	description: "Returns true if the last message is from the character.",
-	returns: "Whether the last message is coming from character.",
-	returnType: MacroValueType.BOOLEAN,
-	handler: () => {
-		const { last, lastChar } = getLastMessages();
-		return last === lastChar;
-	},
+  category: MacroCategory.CHAT,
+  description: "Returns true if the last message is from the character.",
+  returns: "Whether the last message is coming from character.",
+  returnType: MacroValueType.BOOLEAN,
+  handler: () => {
+    const last = findLastMessage();
+    const lastChar = findLastMessage(
+      (message) => !message.is_user && !message.is_system,
+    );
+
+    return last === lastChar;
+  },
 });
