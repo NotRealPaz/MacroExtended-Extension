@@ -11,9 +11,9 @@ This extension provides two new macro functions that allow you to detect who sen
 
 ## Installation
 
-1. Use SillyTavern from the **staging branch** (required for macro extensions)
-2. Place the extension files in your SillyTavern `extensions` directory
-3. Enable **Experimental Macro Engine** in SillyTavern settings
+1. **Install the Extension:**
+   - In the Extension tab, click on ``Install Extension`` and enter ``https://github.com/NotRealPaz/MacroExtended-Extension``
+2. Enable **Experimental Macro Engine** in SillyTavern settings
 
 For more information about macros, visit the [SillyTavern Macros Documentation](https://docs.sillytavern.app/usage/core-concepts/macros/)
 
@@ -44,9 +44,7 @@ For more information about macros, visit the [SillyTavern Macros Documentation](
 
 ## Technical Notes
 
-- The extension intelligently skips system messages and swipe-in-progress messages
-- Works with SillyTavern's macro system (MacroCategory.CHAT)
-- Requires SillyTavern with Experimental Macro Engine enabled
+- Conditional Macros requires ``staging`` branch of SillyTavern.
 
 ## Version
 
