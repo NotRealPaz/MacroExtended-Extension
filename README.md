@@ -15,7 +15,8 @@ This extension provides two new macro functions that allow you to detect who sen
    - In the Extension tab, click on ``Install Extension`` and enter ``https://github.com/NotRealPaz/MacroExtended-Extension``
 2. Enable **Experimental Macro Engine** in SillyTavern settings
 
-⚠️ **Warning:** Enabling the Experimental Macro Engine will likely break your prompt preset.
+> [!CAUTION]
+> Enabling the Experimental Macro Engine will likely break your prompt preset.
 
 For more information about macros, visit the [SillyTavern Macros Documentation](https://docs.sillytavern.app/usage/core-concepts/macros/)
 
